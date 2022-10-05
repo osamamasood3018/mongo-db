@@ -80,7 +80,7 @@ app.listen(port, () => {
 })
 
 
-var dbURI = 'mongodb+srv://osamamasood3018:karachi12345@cluster0.gq9n2zr.mongodb.net/sample_analytics?retryWrites=true&w=majority';
+var dbURI = 'mongodb+srv://osamamasood:osamamasood@cluster0.mbtzmdt.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI);
 mongoose.connection.on('connected', function () {
     console.log("Mongoose is connected");
