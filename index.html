@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: rgb(135, 174, 161);
+        text-align: center;
+        background-image: url("https://searchengineland.com/wp-content/seloads/2015/01/future-search-box-ss-1920.jpg");
+        color: rgb(31, 30, 30);
+        padding: 20px;
+    }
+    button {
+        background-color:  white;
+        color: rgb(0, 0, 0);
+        padding: 10px 15px;
+        /* margin: 15px 5px; */
+        border-radius: 15px;
+        width: 10%;
+        border-color: rgb(43, 40, 40);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        float: center;
+        cursor: pointer;
+        transition: all 0.15s;
+    
+    }
+    button:hover{
+        opacity: 0.8;
+    }
+    input:hover{
+        opacity: 0.8;
+    }
+    input{
+        border-radius: 15px;
+    }
+    #result{
+        border: 2px rgb(187, 187, 187);
+        border-radius: 5px;
+      background-color: rgb(243, 244, 245);
+        border-style: solid;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 250px;
+        margin-left: 250px;
+    }
+</style>
+<body>
+    <form onsubmit="postTodo(); return false">
+            
+           
+        <b style="font-size: 22px; color:rgb(236, 241, 245) ; "><u><i>Enter:</i></u></b>
+      <input id="todo" type="text" style="width: 60% ; margin-right: 15px; padding: 10px ; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);" placeholder="New Task" >
+        <button type="submit">Add</button><center>
+        
+      </form>
+
+      <br><button onclick="getAllTodos()">Refresh</button>
+      <button onclick="getDelete()" style="width: 12% ; ">Delete All</button>
+  
+      <h3 id="current"> </h3>
+     
+  </center>
+
+
+  <script>
+
+// let api = 'https://fragile-tan-bunny.cyclic.app/'
+
+      function postTodo() {
+          let todoText = document.querySelector("#todo").value
+
+          axios.post(`http://localhost:3000/todo`, {
+              text: todoText
+          })
+              .then(function (response) {
+
+                document.querySelector("#current").innerHTML =
+                `         <h3 id="result"> </h3>`
+
+                  console.log(response.data);
+
+                  document.querySelector("#result").innerHTML = response.data.message;
+
+                //   response.data.data.map(eachTodo => {
+                //       document.querySelector("#result").innerHTML += eachTodo
+                //       document.querySelector("#result").innerHTML += '<br>'
+                //   })
+
+              })
+              .catch(function (error) {
+                  console.log(error);
+              })
+
+      }
+
+      function getAllTodos() {
+          axios.get(`http://localhost:3000/todos`)
+              .then(function (response) {
+                  console.log(response.data);
+
+                  document.querySelector("#result").innerHTML = ""
+
+                  response.data.data.map(eachTodo => {
+                      document.querySelector("#result").innerHTML = eachTodo.text +  document.querySelector("#result").innerHTML
+                      document.querySelector("#result").innerHTML = '<br>' + document.querySelector("#result").innerHTML 
+                  })
+
+              })
+              .catch(function (error) {
+                  console.log(error);
+              })
+      }
+      
+
+setInterval(getAllTodos, 700);
+
+      function getDelete() {
+       
+                  
+          let code = prompt("Enter Password ")
+          if (code === "000") {
+              axios.delete('http://localhost:3000/del')
+          .then(function (response) {
+                  console.log(response.data);
+          
+              })    
+              .catch((error) => {
+              console.log(error)
+          })}
+      }
+  
+  </script>
+
+</body>
+</html>
