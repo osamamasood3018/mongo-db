@@ -34,7 +34,6 @@ app.post('/todo', (req, res) => { // post krdeta hai
         if (!err) {
             console.log(saved);
 
-            
         } else {
             res.status(500).send({
                 message: "server error"
